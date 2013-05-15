@@ -18,8 +18,8 @@
 
 package require ::quartus::project
 
-set VOLTAGE "3.3-V LVCMOS"
-#set VOLTAGE "1.8 V"
+#set VOLTAGE "3.3-V LVCMOS"
+set VOLTAGE "1.8 V"
 
 set_instance_assignment -name IO_STANDARD $VOLTAGE -to c4_clock
 set_instance_assignment -name IO_STANDARD $VOLTAGE -to dac_csx

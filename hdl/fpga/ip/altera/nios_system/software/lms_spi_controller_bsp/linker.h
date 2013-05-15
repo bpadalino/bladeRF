@@ -2,9 +2,9 @@
  * linker.h - Linker script mapping information
  *
  * Machine generated for CPU 'nios2_qsys_0' in SOPC Builder design 'nios_system'
- * SOPC Builder design path: Z:/work/nuandclean/release/hdl/fpga/ip/altera/nios_system/nios_system.sopcinfo
+ * SOPC Builder design path: ../../nios_system.sopcinfo
  *
- * Generated: Mon Feb 18 03:36:43 PST 2013
+ * Generated: Sat Apr 06 00:25:38 EDT 2013
  */
 
 /*
@@ -66,7 +66,7 @@
  */
 
 #define ONCHIP_MEMORY2_0_REGION_BASE 0x20
-#define ONCHIP_MEMORY2_0_REGION_SPAN 32736
+#define ONCHIP_MEMORY2_0_REGION_SPAN 81888
 #define RESET_REGION_BASE 0x0
 #define RESET_REGION_SPAN 32
 

@@ -1,0 +1,24 @@
+	component nios_system is
+		port (
+			clk_clk             : in  std_logic := 'X'; -- clk
+			reset_reset_n       : in  std_logic := 'X'; -- reset_n
+			spi_MISO            : in  std_logic := 'X'; -- MISO
+			spi_MOSI            : out std_logic;        -- MOSI
+			spi_SCLK            : out std_logic;        -- SCLK
+			spi_SS_n            : out std_logic;        -- SS_n
+			uart_rxd            : in  std_logic := 'X'; -- rxd
+			uart_txd            : out std_logic;        -- txd
+			dac_MISO            : in  std_logic := 'X'; -- MISO
+			dac_MOSI            : out std_logic;        -- MOSI
+			dac_SCLK            : out std_logic;        -- SCLK
+			dac_SS_n            : out std_logic;        -- SS_n
+			oc_i2c_scl_pad_o    : out std_logic;        -- scl_pad_o
+			oc_i2c_scl_padoen_o : out std_logic;        -- scl_padoen_o
+			oc_i2c_sda_pad_i    : in  std_logic := 'X'; -- sda_pad_i
+			oc_i2c_sda_pad_o    : out std_logic;        -- sda_pad_o
+			oc_i2c_sda_padoen_o : out std_logic;        -- sda_padoen_o
+			oc_i2c_arst_i       : in  std_logic := 'X'; -- arst_i
+			oc_i2c_scl_pad_i    : in  std_logic := 'X'  -- scl_pad_i
+		);
+	end component nios_system;
+

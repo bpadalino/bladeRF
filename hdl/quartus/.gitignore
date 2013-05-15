@@ -1,0 +1,6 @@
+db
+incremental_db
+simulation
+*.txt
+*.jdi
+.qsys_edit

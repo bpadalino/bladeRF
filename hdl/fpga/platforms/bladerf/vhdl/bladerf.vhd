@@ -19,10 +19,10 @@ entity bladerf is
     dac_csx             :   out     std_logic ;
 
     -- LEDs
-    led                 :   buffer  std_logic_vector(2 downto 1) := (others =>'0') ;
+    led                 :   buffer  std_logic_vector(3 downto 1) := (others =>'0') ;
 
     -- LMS RX Interface
-    lms_rx_clock        :   buffer  std_logic ;
+    --lms_rx_clock        :   buffer  std_logic ;
     lms_rx_clock_out    :   in      std_logic ;
     lms_rx_data         :   in      signed(11 downto 0) ;
     lms_rx_enable       :   out     std_logic ;
@@ -30,7 +30,7 @@ entity bladerf is
     lms_rx_v            :   out     std_logic_vector(2 downto 1) ;
 
     -- LMS TX Interface
-    lms_tx_clock        :   out     std_logic ;
+    c4_tx_clock         :   in      std_logic ;
     lms_tx_data         :   out     signed(11 downto 0) ;
     lms_tx_enable       :   out     std_logic ;
     lms_tx_iq_select    :   buffer  std_logic := '0' ;
@@ -46,24 +46,33 @@ entity bladerf is
     lms_pll_out         :   in      std_logic ;
     lms_reset           :   buffer  std_logic ;
 
+    -- Si5338 I2C Interface
+    si_scl              :   inout   std_logic ;
+    si_sda              :   inout   std_logic ;
+
     -- FX3 Interface
     fx3_pclk            :   in      std_logic ;
     fx3_gpif            :   inout   std_logic_vector(31 downto 0) ;
     fx3_ctl             :   inout   std_logic_vector(12 downto 0) ;
     fx3_uart_rxd        :   out     std_logic ;
-    fx3_uart_txd        :   in     std_logic ;
+    fx3_uart_txd        :   in      std_logic ;
     fx3_uart_csx        :   in      std_logic ;
 
-    -- 1pps reference
-    refexp_1pps         :   in      std_logic ;
+    -- Reference signals
+    ref_1pps            :   in      std_logic ;
+    ref_sma_clock       :   in      std_logic ;
+
+    -- Mini expansion
+    mini_exp1           :   inout   std_logic ;
+    mini_exp2           :   inout   std_logic ;
 
     -- Expansion Interface
-    exp_clock           :   out     std_logic ;
     exp_present         :   in      std_logic ;
     exp_spi_clock       :   out     std_logic ;
     exp_spi_miso        :   in      std_logic ;
     exp_spi_mosi        :   out     std_logic ;
-    exp_gpio            :   inout   std_logic_vector(16 downto 1)
+    exp_clock_in        :   in      std_logic ;
+    exp_gpio            :   inout   std_logic_vector(32 downto 2)
   ) ;
 end entity ; -- bladerf
 
@@ -71,22 +80,31 @@ architecture arch of bladerf is
 
     component nios_system is
       port (
-        clk_clk       : in  std_logic := 'X'; -- clk
-        reset_reset_n : in  std_logic := 'X'; -- reset_n
-        dac_MISO      : in  std_logic := 'X'; -- MISO
-        dac_MOSI      : out std_logic;        -- MOSI
-        dac_SCLK      : out std_logic;        -- SCLK
-        dac_SS_n      : out std_logic;        -- SS_n
-        spi_MISO      : in  std_logic := 'X'; -- MISO
-        spi_MOSI      : out std_logic;        -- MOSI
-        spi_SCLK      : out std_logic;        -- SCLK
-        spi_SS_n      : out std_logic;        -- SS_n
-        uart_rxd      : in  std_logic;
-        uart_txd      : out std_logic
+        clk_clk             : in  std_logic := 'X'; -- clk
+        reset_reset_n       : in  std_logic := 'X'; -- reset_n
+        dac_MISO            : in  std_logic := 'X'; -- MISO
+        dac_MOSI            : out std_logic;        -- MOSI
+        dac_SCLK            : out std_logic;        -- SCLK
+        dac_SS_n            : out std_logic;        -- SS_n
+        spi_MISO            : in  std_logic := 'X'; -- MISO
+        spi_MOSI            : out std_logic;        -- MOSI
+        spi_SCLK            : out std_logic;        -- SCLK
+        spi_SS_n            : out std_logic;        -- SS_n
+        uart_rxd            : in  std_logic;
+        uart_txd            : out std_logic;
+        oc_i2c_scl_pad_o    : out std_logic;
+        oc_i2c_scl_padoen_o : out std_logic;
+        oc_i2c_sda_pad_i    : in  std_logic;
+        oc_i2c_sda_pad_o    : out std_logic;
+        oc_i2c_sda_padoen_o : out std_logic;
+        oc_i2c_arst_i       : in  std_logic;
+        oc_i2c_scl_pad_i    : in  std_logic
       );
     end component nios_system;
 
     signal ramp_out : signed(11 downto 0) ;
+
+    signal lms_tx_clock :   std_logic ;
 
     signal \38.4MHz\    :   std_logic ;
     signal \76.8MHz\    :   std_logic ;
@@ -130,6 +148,14 @@ architecture arch of bladerf is
 
     signal qualifier : unsigned(5 downto 0) := (others =>'0') ;
     attribute noprune of qualifier : signal is true ;
+
+    signal i2c_scl_in  : std_logic ;
+    signal i2c_scl_out : std_logic ;
+    signal i2c_scl_oen : std_logic ;
+
+    signal i2c_sda_in  : std_logic ;
+    signal i2c_sda_out : std_logic ;
+    signal i2c_sda_oen : std_logic ;
 
 begin
 
@@ -203,19 +229,32 @@ begin
 
     U_nios_system : nios_system
       port map (
-        clk_clk         => c4_clock,
-        reset_reset_n   => '1',
-        dac_MISO        => dac_sdo,
-        dac_MOSI        => dac_sdi,
-        dac_SCLK        => dac_sclk,
-        dac_SS_n        => dac_csx,
-        spi_MISO        => lms_sdo,
-        spi_MOSI        => lms_sdio,
-        spi_SCLK        => lms_sclk,
-        spi_SS_n        => lms_sen,
-        uart_rxd        => nios_uart_rxd,
-        uart_txd        => nios_uart_txd
+        clk_clk             => c4_clock,
+        reset_reset_n       => '1',
+        dac_MISO            => dac_sdo,
+        dac_MOSI            => dac_sdi,
+        dac_SCLK            => dac_sclk,
+        dac_SS_n            => dac_csx,
+        spi_MISO            => lms_sdo,
+        spi_MOSI            => lms_sdio,
+        spi_SCLK            => lms_sclk,
+        spi_SS_n            => lms_sen,
+        uart_rxd            => nios_uart_rxd,
+        uart_txd            => nios_uart_txd,
+        oc_i2c_scl_pad_o    => i2c_scl_out,
+        oc_i2c_scl_padoen_o => i2c_scl_oen,
+        oc_i2c_sda_pad_i    => i2c_sda_in,
+        oc_i2c_sda_pad_o    => i2c_sda_out,
+        oc_i2c_sda_padoen_o => i2c_sda_oen,
+        oc_i2c_arst_i       => '0',
+        oc_i2c_scl_pad_i    => i2c_scl_in
       ) ;
+
+    si_scl <= i2c_scl_out when i2c_scl_oen = '0' else 'Z' ;
+    si_sda <= i2c_sda_out when i2c_sda_oen = '0' else 'Z' ;
+
+    i2c_scl_in <= si_scl ;
+    i2c_sda_in <= si_sda ;
 
 --    U_spi_reader : entity work.spi_reader
 --      port map (
@@ -282,6 +321,7 @@ begin
         end if ;
     end process ;
 
+    led(3) <= '1' ;
 
 --    -- Digital loopback FX3
 --    U_fx3 : entity work.fx3(digital_loopback)
@@ -301,10 +341,10 @@ begin
 
     lms_reset <= '1' ;
 
-    lms_rx_clock        <= \76.8MHz\ ;
+    -- lms_rx_clock        <= \76.8MHz\ ;
     lms_rx_enable       <= '1' ;
 
-    lms_tx_clock        <= \76.8MHz\ ;
+    lms_tx_clock        <= c4_tx_clock ;
     lms_tx_enable       <= '1' ;
     lms_tx_iq_select    <= not lms_tx_iq_select when rising_edge(\76.8MHz\) ;
 
@@ -337,7 +377,6 @@ begin
     fx3_ctl             <= (others =>'Z') ;
     -- fx3_uart_rxd        <= fx3_uart_txd ;
 
-    exp_clock           <= '0' ;
     exp_spi_clock       <= '0' ;
     exp_spi_mosi        <= '0' ;
     exp_gpio            <= (others =>'Z') ;

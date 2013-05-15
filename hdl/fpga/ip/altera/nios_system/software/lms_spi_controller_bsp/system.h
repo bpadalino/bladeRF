@@ -2,9 +2,9 @@
  * system.h - SOPC Builder system and BSP software package information
  *
  * Machine generated for CPU 'nios2_qsys_0' in SOPC Builder design 'nios_system'
- * SOPC Builder design path: Z:/work/nuandclean/release/hdl/fpga/ip/altera/nios_system/nios_system.sopcinfo
+ * SOPC Builder design path: ../../nios_system.sopcinfo
  *
- * Generated: Mon Feb 18 03:36:43 PST 2013
+ * Generated: Tue May 14 23:33:07 EDT 2013
  */
 
 /*
@@ -129,6 +129,7 @@
 #define __ALTERA_AVALON_TIMER
 #define __ALTERA_AVALON_UART
 #define __ALTERA_NIOS2_QSYS
+#define __OC_I2C_MASTER
 
 
 /*
@@ -196,6 +197,20 @@
 
 
 /*
+ * oc_i2c_master_0 configuration
+ *
+ */
+
+#define ALT_MODULE_CLASS_oc_i2c_master_0 oc_i2c_master
+#define OC_I2C_MASTER_0_BASE 0x26000
+#define OC_I2C_MASTER_0_IRQ 5
+#define OC_I2C_MASTER_0_IRQ_INTERRUPT_CONTROLLER_ID 0
+#define OC_I2C_MASTER_0_NAME "/dev/oc_i2c_master_0"
+#define OC_I2C_MASTER_0_SPAN 8
+#define OC_I2C_MASTER_0_TYPE "oc_i2c_master"
+
+
+/*
  * onchip_memory2_0 configuration
  *
  */
@@ -218,8 +233,8 @@
 #define ONCHIP_MEMORY2_0_READ_DURING_WRITE_MODE "DONT_CARE"
 #define ONCHIP_MEMORY2_0_SINGLE_CLOCK_OP 0
 #define ONCHIP_MEMORY2_0_SIZE_MULTIPLE 1
-#define ONCHIP_MEMORY2_0_SIZE_VALUE 32768u
-#define ONCHIP_MEMORY2_0_SPAN 32768
+#define ONCHIP_MEMORY2_0_SIZE_VALUE 81920u
+#define ONCHIP_MEMORY2_0_SPAN 81920
 #define ONCHIP_MEMORY2_0_TYPE "altera_avalon_onchip_memory2"
 #define ONCHIP_MEMORY2_0_WRITABLE 1
 
@@ -261,7 +276,7 @@
  */
 
 #define ALT_MODULE_CLASS_spi_1 altera_avalon_spi
-#define SPI_1_BASE 0x10000
+#define SPI_1_BASE 0x25000
 #define SPI_1_CLOCKMULT 1
 #define SPI_1_CLOCKPHASE 1
 #define SPI_1_CLOCKPOLARITY 1

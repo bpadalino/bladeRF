@@ -142,7 +142,8 @@ ACDS_VERSION := 12.1sp1
 ELF := lms_spi_controller.elf
 
 # Paths to C, C++, and assembly source files.
-C_SRCS := hello_world_small.c
+C_SRCS += hello_world_small.c
+C_SRCS += lms_spi_config.c
 CXX_SRCS :=
 ASM_SRCS :=
 
@@ -177,7 +178,7 @@ CRT0 :=
 SYS_LIB :=
 
 # Define path to the root of the BSP.
-BSP_ROOT_DIR := ../lms_spi_controller_bsp/
+BSP_ROOT_DIR := ../lms_spi_controller_bsp
 
 # List of application specific include directories, library directories and library names
 APP_INCLUDE_DIRS :=

@@ -2,9 +2,9 @@
  * linker.x - Linker script
  *
  * Machine generated for CPU 'nios2_qsys_0' in SOPC Builder design 'nios_system'
- * SOPC Builder design path: Z:/work/nuandclean/release/hdl/fpga/ip/altera/nios_system/nios_system.sopcinfo
+ * SOPC Builder design path: ../../nios_system.sopcinfo
  *
- * Generated: Mon Feb 18 03:36:43 PST 2013
+ * Generated: Sat Apr 06 00:25:38 EDT 2013
  */
 
 /*
@@ -51,7 +51,7 @@
 MEMORY
 {
     reset : ORIGIN = 0x0, LENGTH = 32
-    onchip_memory2_0 : ORIGIN = 0x20, LENGTH = 32736
+    onchip_memory2_0 : ORIGIN = 0x20, LENGTH = 81888
 }
 
 /* Define symbols for each memory base-address */
@@ -366,7 +366,7 @@ SECTIONS
 /*
  * Don't override this, override the __alt_stack_* symbols instead.
  */
-__alt_data_end = 0x8000;
+__alt_data_end = 0x14000;
 
 /*
  * The next two symbols define the location of the default stack.  You can
@@ -382,4 +382,4 @@ PROVIDE( __alt_stack_limit   = __alt_stack_base );
  * Override this symbol to put the heap in a different memory.
  */
 PROVIDE( __alt_heap_start    = end );
-PROVIDE( __alt_heap_limit    = 0x8000 );
+PROVIDE( __alt_heap_limit    = 0x14000 );
