@@ -114,7 +114,7 @@ uint8_t * const OC_I2C_CMD_STATUS = (uint8_t *)OC_I2C_MASTER_0_BASE + 4 ;
 
 void si5338_read( uint8_t addr, uint8_t *data ) {
 
-	// Set the address to the Si5338 + register offset
+	// Set the address to the Si5338
 	*OC_I2C_DATA = SI5338_I2C ;
 
 	*OC_I2C_CMD_STATUS |= (OC_I2C_STA  | OC_I2C_WR) ;
@@ -148,7 +148,29 @@ void si5338_read( uint8_t addr, uint8_t *data ) {
 }
 
 void si5338_write( uint8_t addr, uint8_t data ) {
-	// TODO: Do this
+	// TODO: Make sure this works
+	// Set the address to the Si5338
+	*OC_I2C_DATA = SI5338_I2C ;
+	*OC_I2C_CMD_STATUS |= (OC_I2C_STA  | OC_I2C_WR) ;
+	printf( " \b \b \b \b" ) ;
+	while( (*OC_I2C_CMD_STATUS&OC_I2C_RXACK) == 1 ) { } ;
+	printf( " \b \b \b \b" ) ;
+
+	*OC_I2C_DATA = addr ;
+	*OC_I2C_CMD_STATUS |= OC_I2C_WR ;
+	printf( " \b \b \b \b" ) ;
+	while( (*OC_I2C_CMD_STATUS&OC_I2C_TIP) == 1 ) { } ;
+	printf( "        " ) ;
+	while( (*OC_I2C_CMD_STATUS&OC_I2C_RXACK) == 1 ) { } ;
+	printf( " \b \b \b \b" ) ;
+
+	*OC_I2C_DATA = data ;
+	*OC_I2C_CMD_STATUS |= (OC_I2C_WR | OC_I2C_STO) ;
+	printf( " \b \b \b \b" ) ;
+	while( (*OC_I2C_CMD_STATUS&OC_I2C_RXACK) == 1 ) { } ;
+	printf( " \b \b \b \b" ) ;
+	while( (*OC_I2C_CMD_STATUS&OC_I2C_TIP) == 1 ) { } ;
+	printf( " \b \b \b \b" ) ;
 	return ;
 }
 
@@ -183,6 +205,20 @@ int main()
 	  }
   }
 
+  {
+	  uint8_t i ;
+	  si5338_read( 30 ,&data ) ;
+	  i = data ;
+	  printf( "data1: %x\n", data ) ;
+	  si5338_write( 30, 0xe3 ) ;
+	  data = 0 ;
+	  si5338_read( 30, &data ) ;
+	  printf( "data2: %x\n", data ) ;
+	  si5338_write( 30, i ) ;
+	  data = 1 ;
+	  si5338_read( 30, &data ) ;
+	  printf( "data3: %x\n", data ) ;
+  }
   /* Event loop never exits. */
   {
 	  while(1)
