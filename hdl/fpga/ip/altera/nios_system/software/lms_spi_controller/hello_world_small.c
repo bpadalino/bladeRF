@@ -112,6 +112,46 @@ uint8_t * const OC_I2C_CMD_STATUS = (uint8_t *)OC_I2C_MASTER_0_BASE + 4 ;
 #define OC_I2C_RXACK (1<<7)
 #define OC_I2C_NACK (1<<3)
 
+void si5338_read( uint8_t addr, uint8_t *data ) {
+
+	// Set the address to the Si5338 + register offset
+	*OC_I2C_DATA = SI5338_I2C ;
+
+	*OC_I2C_CMD_STATUS |= (OC_I2C_STA  | OC_I2C_WR) ;
+	printf( " \b \b \b \b" ) ;
+	while( (*OC_I2C_CMD_STATUS&OC_I2C_RXACK) == 1 ) { } ;
+	printf( " \b \b \b \b" ) ;
+
+	*OC_I2C_DATA = addr ;
+
+	*OC_I2C_CMD_STATUS |= (OC_I2C_WR | OC_I2C_STO) ;
+
+	while( (*OC_I2C_CMD_STATUS&OC_I2C_RXACK) == 1 ) { } ;
+	printf( " \b \b \b \b" ) ;
+	while( (*OC_I2C_CMD_STATUS&OC_I2C_TIP) == 1 ) { } ;
+	printf( " \b \b \b \b" ) ;
+
+	// Next transfer is a read operation, so '1' in the read
+	*OC_I2C_DATA = SI5338_I2C + 1 ;
+
+	*OC_I2C_CMD_STATUS |= (OC_I2C_STA | OC_I2C_WR) ;
+	while( (*OC_I2C_CMD_STATUS&OC_I2C_RXACK) == 1 ) { } ;
+	printf( " \b \b \b \b" ) ;
+
+	*OC_I2C_CMD_STATUS |= (OC_I2C_RD | OC_I2C_NACK | OC_I2C_STO) ;
+
+	while( (*OC_I2C_CMD_STATUS&OC_I2C_TIP) == 1 ) { } ;
+	printf( " \b \b \b \b" ) ;
+
+	*data = *OC_I2C_DATA ;
+	return ;
+}
+
+void si5338_write( uint8_t addr, uint8_t data ) {
+	// TODO: Do this
+	return ;
+}
+
 // Entry point
 int main()
 {
@@ -132,45 +172,16 @@ int main()
   *OC_I2C_PRESCALER = 0x20 ;
   *OC_I2C_CTRL |= OC_I2C_ENABLE ;
 
-  // Set the address to the Si5338 + register offset
-  *OC_I2C_DATA = SI5338_I2C ;
-
-  *OC_I2C_CMD_STATUS |= (OC_I2C_STA  | OC_I2C_WR) ;
-
-  //while( (*OC_I2C_CMD_STATUS&OC_I2C_TIP) == 0 ) { } ;
-  printf( "Transfer started...\n" ) ;
-  while( (*OC_I2C_CMD_STATUS&OC_I2C_RXACK) == 1 ) { } ;
-  printf( "RX ACK!\n" ) ;
-
-  *OC_I2C_DATA = 10 ;
-
-  *OC_I2C_CMD_STATUS |= (OC_I2C_WR | OC_I2C_STO) ;
-
-  //while( (*OC_I2C_CMD_STATUS&OC_I2C_TIP) == 0 ) { } ;
-  //printf( "Transfer startd...\n" ) ;
-  while( (*OC_I2C_CMD_STATUS&OC_I2C_RXACK) == 1 ) { } ;
-  printf( "RX_ACK!\n" ) ;
-  while( (*OC_I2C_CMD_STATUS&OC_I2C_TIP) == 1 ) { } ;
-  printf( "Transfer finished!\n" ) ;
-  // Next transfer is a read operation, so '1' in the read
-
-  *OC_I2C_DATA = SI5338_I2C + 1 ;
-
-  *OC_I2C_CMD_STATUS |= (OC_I2C_STA | OC_I2C_WR) ;
-
-  //while( (*OC_I2C_CMD_STATUS&OC_I2C_TIP) == 0 ) { } ;
-  //printf( "Transfer started!\n" ) ;
-  while( (*OC_I2C_CMD_STATUS&OC_I2C_RXACK) == 1 ) { } ;
-  printf( "RX ACK'd!\n" ) ;
-
-  *OC_I2C_CMD_STATUS |= (OC_I2C_RD | OC_I2C_NACK | OC_I2C_STO) ;
-
-  while( (*OC_I2C_CMD_STATUS&OC_I2C_TIP) == 1 ) { } ;
-  printf( "Transfer should be done!!\n" ) ;
-
-  data = *OC_I2C_DATA ;
-
-  alt_printf( "I2C data: %x\n", data ) ;
+  {
+	  printf( "Si5338 Register Table\n" ) ;
+	  printf( "---------------------\n" ) ;
+	  uint8_t i ;
+	  for( i = 0 ; ; i++ ) {
+		  si5338_read( i, &data ) ;
+		  printf( "addr: %d  data: %x\n", i, data ) ;
+		  if( i == 255 ) break ;
+	  }
+  }
 
   /* Event loop never exits. */
   {
