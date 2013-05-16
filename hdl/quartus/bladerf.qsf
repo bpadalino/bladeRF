@@ -48,7 +48,7 @@ set_global_assignment -name DEVICE_FILTER_PACKAGE FBGA
 set_global_assignment -name DEVICE_FILTER_PIN_COUNT 484
 set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (VHDL)"
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VHDL -section_id eda_simulation
-set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id Top
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_instance_assignment -name IO_STANDARD "1.8 V" -to c4_clock
@@ -549,12 +549,6 @@ set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER
 set_global_assignment -name SLD_NODE_CREATOR_ID 110 -section_id si5338_i2c_tap
 set_global_assignment -name SLD_NODE_ENTITY_NAME sld_signaltap -section_id si5338_i2c_tap
 set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_clk -to c4_clock -section_id si5338_i2c_tap
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[0] -to si_scl -section_id si5338_i2c_tap
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[1] -to si_sda -section_id si5338_i2c_tap
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[0] -to si_scl -section_id si5338_i2c_tap
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[1] -to si_sda -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_DATA_BITS=2" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_BITS=2" -section_id si5338_i2c_tap
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_INFO=805334529" -section_id si5338_i2c_tap
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_POWER_UP_TRIGGER=0" -section_id si5338_i2c_tap
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ATTRIBUTE_MEM_MODE=OFF" -section_id si5338_i2c_tap
@@ -562,24 +556,66 @@ set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_FLOW_USE_GE
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_BITS=11" -section_id si5338_i2c_tap
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_BUFFER_FULL_STOP=1" -section_id si5338_i2c_tap
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_CURRENT_RESOURCE_WIDTH=1" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_LOWORD=60857" -section_id si5338_i2c_tap
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL=1" -section_id si5338_i2c_tap
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_IN_ENABLED=0" -section_id si5338_i2c_tap
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ADVANCED_TRIGGER_ENTITY=basic,1," -section_id si5338_i2c_tap
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL_PIPELINE=1" -section_id si5338_i2c_tap
 set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ENABLE_ADVANCED_TRIGGER=0" -section_id si5338_i2c_tap
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[0] -to si_scl -section_id si5338_i2c_tap
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[1] -to si_sda -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_BITS=2" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_INVERSION_MASK_LENGTH=7" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_GAP_RECORD=1" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_MODE=COMBINATIONAL" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_ADVANCED_CONDITION_ENTITY=basic,1," -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_PIPELINE=1" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_ENABLE_ADVANCED_CONDITION=0" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK=0000000000000000000000000000000000000000000" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK_LENGTH=43" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SEGMENT_SIZE=65536" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_HIWORD=25176" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SAMPLE_DEPTH=65536" -section_id si5338_i2c_tap
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SEGMENT_SIZE=8192" -section_id si5338_i2c_tap
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SAMPLE_DEPTH=8192" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[0] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_ack_o" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[1] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_adr_i[0]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[2] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_adr_i[1]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[3] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_adr_i[2]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[4] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_cyc_i" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[5] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[0]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[6] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[1]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[7] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[2]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[8] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[3]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[9] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[4]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[10] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[5]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[11] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[6]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[12] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[7]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[13] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[0]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[14] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[1]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[15] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[2]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[16] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[3]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[17] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[4]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[18] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[5]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[19] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[6]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[20] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[7]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[21] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_we_i" -section_id si5338_i2c_tap
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[22] -to si_scl -section_id si5338_i2c_tap
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[23] -to si_sda -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[0] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_ack_o" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[1] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_adr_i[0]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[2] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_adr_i[1]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[3] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_adr_i[2]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[4] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_cyc_i" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[5] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[0]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[6] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[1]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[7] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[2]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[8] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[3]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[9] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[4]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[10] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[5]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[11] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[6]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[12] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[7]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[13] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[0]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[14] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[1]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[15] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[2]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[16] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[3]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[17] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[4]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[18] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[5]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[19] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[6]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[20] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[7]" -section_id si5338_i2c_tap
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[21] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_we_i" -section_id si5338_i2c_tap
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[22] -to si_scl -section_id si5338_i2c_tap
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[23] -to si_sda -section_id si5338_i2c_tap
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_DATA_BITS=24" -section_id si5338_i2c_tap
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_BITS=24" -section_id si5338_i2c_tap
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_LOWORD=17739" -section_id si5338_i2c_tap
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" -section_id si5338_i2c_tap
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK_LENGTH=99" -section_id si5338_i2c_tap
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_INVERSION_MASK_LENGTH=0" -section_id si5338_i2c_tap
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_HIWORD=12224" -section_id si5338_i2c_tap
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
