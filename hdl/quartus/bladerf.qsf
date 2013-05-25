@@ -41,7 +41,7 @@ set_global_assignment -name DEVICE EP4CE40F23C8
 set_global_assignment -name TOP_LEVEL_ENTITY bladerf
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 12.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "00:17:06  NOVEMBER 24, 2012"
-set_global_assignment -name LAST_QUARTUS_VERSION 12.1
+set_global_assignment -name LAST_QUARTUS_VERSION "12.1 SP1"
 set_global_assignment -name SEARCH_PATH nuand
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name DEVICE_FILTER_PACKAGE FBGA
@@ -125,7 +125,6 @@ set_instance_assignment -name IO_STANDARD "1.8 V" -to fx3_uart_rxd
 set_instance_assignment -name IO_STANDARD "1.8 V" -to fx3_uart_txd
 set_instance_assignment -name IO_STANDARD "1.8 V" -to lms_pll_out
 set_instance_assignment -name IO_STANDARD "1.8 V" -to lms_reset
-set_instance_assignment -name IO_STANDARD "1.8 V" -to lms_rx_clock
 set_instance_assignment -name IO_STANDARD "1.8 V" -to lms_rx_clock_out
 set_instance_assignment -name IO_STANDARD "1.8 V" -to lms_rx_data[11]
 set_instance_assignment -name IO_STANDARD "1.8 V" -to lms_rx_data[10]
@@ -213,7 +212,6 @@ set_location_assignment PIN_AA4 -to fx3_uart_csx
 set_location_assignment PIN_AA5 -to fx3_uart_rxd
 set_location_assignment PIN_AA3 -to fx3_uart_txd
 set_location_assignment PIN_T21 -to lms_pll_out
-set_location_assignment PIN_K21 -to lms_rx_clock
 set_location_assignment PIN_T22 -to lms_rx_clock_out
 set_location_assignment PIN_B22 -to lms_rx_data[11]
 set_location_assignment PIN_B21 -to lms_rx_data[10]
@@ -305,25 +303,6 @@ set_global_assignment -name USE_SIGNALTAP_FILE signaltap/spi_debugging.stp
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
-set_global_assignment -name QIP_FILE ../fpga/ip/altera/nios_system/synthesis/nios_system.qip
-set_global_assignment -name VHDL_FILE ../fpga/ip/nuand/synthesis/nco.vhd -hdl_version VHDL_2008
-set_global_assignment -name VHDL_FILE ../fpga/ip/nuand/synthesis/fsk_modulator.vhd -hdl_version VHDL_2008
-set_global_assignment -name VHDL_FILE ../fpga/ip/nuand/synthesis/fsk_demodulator.vhd -hdl_version VHDL_2008
-set_global_assignment -name VHDL_FILE ../fpga/ip/nuand/synthesis/cordic.vhd -hdl_version VHDL_2008
-set_global_assignment -name VHDL_FILE ../fpga/platforms/bladerf/vhdl/ramp.vhd -hdl_version VHDL_2008
-set_global_assignment -name SIGNALTAP_FILE signaltap/spi_debugging.stp
-set_global_assignment -name VHDL_FILE ../fpga/platforms/bladerf/vhdl/spi_reader.vhd -hdl_version VHDL_2008
-set_global_assignment -name SDC_FILE ../fpga/platforms/bladerf/constraints/bladerf.sdc
-set_global_assignment -name VHDL_FILE ../fpga/platforms/bladerf/vhdl/fx3.vhd -hdl_version VHDL_2008 -library nuand
-set_global_assignment -name VHDL_FILE ../fpga/platforms/bladerf/vhdl/bladerf_debug_p.vhd -hdl_version VHDL_2008 -library nuand
-set_global_assignment -name VHDL_FILE ../fpga/platforms/bladerf/vhdl/bladerf.vhd -hdl_version VHDL_2008 -library nuand
-set_global_assignment -name VHDL_FILE ../fpga/ip/nuand/synthesis/uart.vhd -hdl_version VHDL_2008 -library nuand
-set_global_assignment -name VHDL_FILE ../fpga/ip/nuand/synthesis/sync_fifo.vhd -hdl_version VHDL_2008 -library nuand
-set_global_assignment -name VHDL_FILE ../fpga/ip/nuand/synthesis/constellation_mapper.vhd -hdl_version VHDL_2008 -library nuand
-set_global_assignment -name QIP_FILE ../fpga/ip/altera/nios_system/software/lms_spi_controller/mem_init/meminit.qip
-set_global_assignment -name QIP_FILE ../fpga/ip/altera/pll/pll.qip
-set_global_assignment -name QIP_FILE ../fpga/ip/altera/serial_pll/serial_pll.qip
-set_global_assignment -name QIP_FILE ../fpga/ip/altera/gigemac/gigemac.qip
 set_instance_assignment -name IO_STANDARD "1.8 V" -to altera_reserved_tck
 set_instance_assignment -name IO_STANDARD "1.8 V" -to altera_reserved_tdi
 set_instance_assignment -name IO_STANDARD "1.8 V" -to altera_reserved_tdo
@@ -378,244 +357,269 @@ set_location_assignment PIN_AB12 -to ref_sma_clock
 set_location_assignment PIN_A6 -to si_scl
 set_location_assignment PIN_A7 -to si_sda
 set_instance_assignment -name IO_STANDARD "1.8 V" -to exp_clock_in
-set_global_assignment -name SLD_NODE_CREATOR_ID 110 -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_ENTITY_NAME sld_signaltap -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_clk -to lms_rx_clock_out -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[0] -to dac_csx -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[1] -to dac_sclk -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[2] -to dac_sdi -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[3] -to dac_sdo -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[4] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[0]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[5] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[10]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[6] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[11]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[7] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[12]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[8] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[13]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[9] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[14]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[10] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[15]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[11] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[1]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[12] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[2]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[13] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[3]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[14] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[4]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[15] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[5]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[16] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[6]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[17] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[7]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[18] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[8]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[19] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[9]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[20] -to "nios_system:U_nios_system|uart_txd" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[21] -to qualifier[5] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[22] -to rx_i[0] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[23] -to rx_i[10] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[24] -to rx_i[11] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[25] -to rx_i[1] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[26] -to rx_i[2] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[27] -to rx_i[3] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[28] -to rx_i[4] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[29] -to rx_i[5] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[30] -to rx_i[6] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[31] -to rx_i[7] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[32] -to rx_i[8] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[33] -to rx_i[9] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[34] -to rx_q[0] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[35] -to rx_q[10] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[36] -to rx_q[11] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[37] -to rx_q[1] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[38] -to rx_q[2] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[39] -to rx_q[3] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[40] -to rx_q[4] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[41] -to rx_q[5] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[42] -to rx_q[6] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[43] -to rx_q[7] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[44] -to rx_q[8] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[45] -to rx_q[9] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[0] -to dac_csx -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[1] -to dac_sclk -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[2] -to dac_sdi -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[3] -to dac_sdo -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[4] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[0]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[5] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[10]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[6] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[11]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[7] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[12]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[8] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[13]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[9] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[14]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[10] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[15]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[11] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[1]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[12] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[2]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[13] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[3]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[14] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[4]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[15] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[5]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[16] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[6]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[17] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[7]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[18] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[8]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[19] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[9]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[20] -to "nios_system:U_nios_system|uart_txd" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[21] -to qualifier[5] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[22] -to rx_i[0] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[23] -to rx_i[10] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[24] -to rx_i[11] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[25] -to rx_i[1] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[26] -to rx_i[2] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[27] -to rx_i[3] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[28] -to rx_i[4] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[29] -to rx_i[5] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[30] -to rx_i[6] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[31] -to rx_i[7] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[32] -to rx_i[8] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[33] -to rx_i[9] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[34] -to rx_q[0] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[35] -to rx_q[10] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[36] -to rx_q[11] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[37] -to rx_q[1] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[38] -to rx_q[2] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[39] -to rx_q[3] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[40] -to rx_q[4] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[41] -to rx_q[5] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[42] -to rx_q[6] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[43] -to rx_q[7] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[44] -to rx_q[8] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[45] -to rx_q[9] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[0] -to dac_csx -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[1] -to dac_sclk -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[2] -to dac_sdi -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[3] -to dac_sdo -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[4] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[0]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[5] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[10]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[6] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[11]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[7] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[12]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[8] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[13]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[9] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[14]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[10] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[15]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[11] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[1]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[12] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[2]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[13] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[3]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[14] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[4]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[15] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[5]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[16] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[6]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[17] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[7]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[18] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[8]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[19] -to "fsk_demodulator:U_fsk_demodulator|unwrapped_z[9]" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[20] -to "nios_system:U_nios_system|uart_txd" -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[21] -to qualifier[5] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[22] -to rx_i[0] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[23] -to rx_i[10] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[24] -to rx_i[11] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[25] -to rx_i[1] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[26] -to rx_i[2] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[27] -to rx_i[3] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[28] -to rx_i[4] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[29] -to rx_i[5] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[30] -to rx_i[6] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[31] -to rx_i[7] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[32] -to rx_i[8] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[33] -to rx_i[9] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[34] -to rx_q[0] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[35] -to rx_q[10] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[36] -to rx_q[11] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[37] -to rx_q[1] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[38] -to rx_q[2] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[39] -to rx_q[3] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[40] -to rx_q[4] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[41] -to rx_q[5] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[42] -to rx_q[6] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[43] -to rx_q[7] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[44] -to rx_q[8] -section_id fsk_demod_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_storage_qualifier_in[45] -to rx_q[9] -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_DATA_BITS=46" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_BITS=46" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_BITS=46" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_INFO=805334528" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_POWER_UP_TRIGGER=0" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK=0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK_LENGTH=301" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_INVERSION_MASK_LENGTH=139" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SEGMENT_SIZE=1024" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ATTRIBUTE_MEM_MODE=OFF" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_FLOW_USE_GENERATED=0" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_BITS=11" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_BUFFER_FULL_STOP=1" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_CURRENT_RESOURCE_WIDTH=1" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_GAP_RECORD=1" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_MODE=COMBINATIONAL" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_LOWORD=20626" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_HIWORD=14847" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL=1" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SAMPLE_DEPTH=1024" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_IN_ENABLED=0" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ADVANCED_TRIGGER_ENTITY=basic,1," -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL_PIPELINE=1" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ENABLE_ADVANCED_TRIGGER=0" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_ADVANCED_CONDITION_ENTITY=basic,1," -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_PIPELINE=1" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_ENABLE_ADVANCED_CONDITION=0" -section_id fsk_demod_tap
-set_global_assignment -name SLD_NODE_CREATOR_ID 110 -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_ENTITY_NAME sld_signaltap -section_id si5338_i2c_tap
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_clk -to c4_clock -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_INFO=805334529" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_POWER_UP_TRIGGER=0" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ATTRIBUTE_MEM_MODE=OFF" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_FLOW_USE_GENERATED=0" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_BITS=11" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_BUFFER_FULL_STOP=1" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_CURRENT_RESOURCE_WIDTH=1" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL=1" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_IN_ENABLED=0" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ADVANCED_TRIGGER_ENTITY=basic,1," -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL_PIPELINE=1" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ENABLE_ADVANCED_TRIGGER=0" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SEGMENT_SIZE=8192" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SAMPLE_DEPTH=8192" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[0] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_ack_o" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[1] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_adr_i[0]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[2] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_adr_i[1]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[3] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_adr_i[2]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[4] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_cyc_i" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[5] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[0]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[6] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[1]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[7] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[2]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[8] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[3]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[9] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[4]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[10] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[5]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[11] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[6]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[12] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[7]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[13] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[0]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[14] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[1]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[15] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[2]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[16] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[3]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[17] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[4]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[18] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[5]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[19] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[6]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[20] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[7]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[21] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_we_i" -section_id si5338_i2c_tap
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[22] -to si_scl -section_id si5338_i2c_tap
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[23] -to si_sda -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[0] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_ack_o" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[1] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_adr_i[0]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[2] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_adr_i[1]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[3] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_adr_i[2]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[4] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_cyc_i" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[5] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[0]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[6] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[1]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[7] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[2]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[8] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[3]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[9] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[4]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[10] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[5]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[11] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[6]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[12] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_i[7]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[13] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[0]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[14] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[1]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[15] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[2]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[16] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[3]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[17] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[4]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[18] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[5]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[19] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[6]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[20] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_dat_o[7]" -section_id si5338_i2c_tap
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[21] -to "nios_system:U_nios_system|i2c_master_top:oc_i2c_master_0|wb_we_i" -section_id si5338_i2c_tap
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[22] -to si_scl -section_id si5338_i2c_tap
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[23] -to si_sda -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_DATA_BITS=24" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_BITS=24" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_LOWORD=17739" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK_LENGTH=99" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_INVERSION_MASK_LENGTH=0" -section_id si5338_i2c_tap
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_HIWORD=12224" -section_id si5338_i2c_tap
+set_global_assignment -name SLD_NODE_CREATOR_ID 110 -section_id lms_tx
+set_global_assignment -name SLD_NODE_ENTITY_NAME sld_signaltap -section_id lms_tx
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_INFO=805334528" -section_id lms_tx
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_POWER_UP_TRIGGER=0" -section_id lms_tx
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_INVERSION_MASK_LENGTH=0" -section_id lms_tx
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ATTRIBUTE_MEM_MODE=OFF" -section_id lms_tx
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_FLOW_USE_GENERATED=0" -section_id lms_tx
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_BITS=11" -section_id lms_tx
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_BUFFER_FULL_STOP=1" -section_id lms_tx
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_CURRENT_RESOURCE_WIDTH=1" -section_id lms_tx
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL=1" -section_id lms_tx
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_IN_ENABLED=0" -section_id lms_tx
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ADVANCED_TRIGGER_ENTITY=basic,1," -section_id lms_tx
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL_PIPELINE=1" -section_id lms_tx
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ENABLE_ADVANCED_TRIGGER=0" -section_id lms_tx
+set_global_assignment -name SLD_NODE_CREATOR_ID 110 -section_id spi
+set_global_assignment -name SLD_NODE_ENTITY_NAME sld_signaltap -section_id spi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_clk -to c4_clock -section_id spi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[0] -to lms_sclk -section_id spi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[1] -to lms_sdio -section_id spi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[2] -to lms_sdo -section_id spi
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[3] -to lms_sen -section_id spi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_BITS=4" -section_id spi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_INFO=805334529" -section_id spi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_POWER_UP_TRIGGER=0" -section_id spi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_INVERSION_MASK_LENGTH=0" -section_id spi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ATTRIBUTE_MEM_MODE=OFF" -section_id spi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_FLOW_USE_GENERATED=0" -section_id spi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_BITS=11" -section_id spi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_BUFFER_FULL_STOP=1" -section_id spi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_CURRENT_RESOURCE_WIDTH=1" -section_id spi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_LOWORD=61822" -section_id spi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL=1" -section_id spi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_IN_ENABLED=0" -section_id spi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ADVANCED_TRIGGER_ENTITY=basic,1," -section_id spi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL_PIPELINE=1" -section_id spi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ENABLE_ADVANCED_TRIGGER=0" -section_id spi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_DATA_BITS=1" -section_id spi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK=000000000000000000000000000" -section_id spi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK_LENGTH=27" -section_id spi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SEGMENT_SIZE=1" -section_id spi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_HIWORD=31988" -section_id spi
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SAMPLE_DEPTH=0" -section_id spi
+set_global_assignment -name VHDL_FILE ../fpga/ip/nuand/synthesis/firrcos.vhd
+set_global_assignment -name QIP_FILE ../fpga/ip/altera/nios_system/synthesis/nios_system.qip
+set_global_assignment -name VHDL_FILE ../fpga/ip/nuand/synthesis/nco.vhd -hdl_version VHDL_2008
+set_global_assignment -name VHDL_FILE ../fpga/ip/nuand/synthesis/fsk_modulator.vhd -hdl_version VHDL_2008
+set_global_assignment -name VHDL_FILE ../fpga/ip/nuand/synthesis/fsk_demodulator.vhd -hdl_version VHDL_2008
+set_global_assignment -name VHDL_FILE ../fpga/ip/nuand/synthesis/cordic.vhd -hdl_version VHDL_2008
+set_global_assignment -name VHDL_FILE ../fpga/platforms/bladerf/vhdl/ramp.vhd -hdl_version VHDL_2008
+set_global_assignment -name SIGNALTAP_FILE signaltap/spi_debugging.stp
+set_global_assignment -name VHDL_FILE ../fpga/platforms/bladerf/vhdl/spi_reader.vhd -hdl_version VHDL_2008
+set_global_assignment -name SDC_FILE ../fpga/platforms/bladerf/constraints/bladerf.sdc
+set_global_assignment -name VHDL_FILE ../fpga/platforms/bladerf/vhdl/fx3.vhd -hdl_version VHDL_2008 -library nuand
+set_global_assignment -name VHDL_FILE ../fpga/platforms/bladerf/vhdl/bladerf_debug_p.vhd -hdl_version VHDL_2008 -library nuand
+set_global_assignment -name VHDL_FILE ../fpga/platforms/bladerf/vhdl/bladerf.vhd -hdl_version VHDL_2008 -library nuand
+set_global_assignment -name VHDL_FILE ../fpga/ip/nuand/synthesis/uart.vhd -hdl_version VHDL_2008 -library nuand
+set_global_assignment -name VHDL_FILE ../fpga/ip/nuand/synthesis/sync_fifo.vhd -hdl_version VHDL_2008 -library nuand
+set_global_assignment -name VHDL_FILE ../fpga/ip/nuand/synthesis/constellation_mapper.vhd -hdl_version VHDL_2008 -library nuand
+set_global_assignment -name QIP_FILE ../fpga/ip/altera/nios_system/software/lms_spi_controller/mem_init/meminit.qip
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_clk -to c4_tx_clock -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[0] -to "firrcos:U_firrcos|in_i[0]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[1] -to "firrcos:U_firrcos|in_i[10]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[2] -to "firrcos:U_firrcos|in_i[11]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[3] -to "firrcos:U_firrcos|in_i[12]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[4] -to "firrcos:U_firrcos|in_i[13]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[5] -to "firrcos:U_firrcos|in_i[14]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[6] -to "firrcos:U_firrcos|in_i[15]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[7] -to "firrcos:U_firrcos|in_i[1]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[8] -to "firrcos:U_firrcos|in_i[2]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[9] -to "firrcos:U_firrcos|in_i[3]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[10] -to "firrcos:U_firrcos|in_i[4]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[11] -to "firrcos:U_firrcos|in_i[5]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[12] -to "firrcos:U_firrcos|in_i[6]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[13] -to "firrcos:U_firrcos|in_i[7]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[14] -to "firrcos:U_firrcos|in_i[8]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[15] -to "firrcos:U_firrcos|in_i[9]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[16] -to "firrcos:U_firrcos|in_q[0]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[17] -to "firrcos:U_firrcos|in_q[10]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[18] -to "firrcos:U_firrcos|in_q[11]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[19] -to "firrcos:U_firrcos|in_q[12]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[20] -to "firrcos:U_firrcos|in_q[13]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[21] -to "firrcos:U_firrcos|in_q[14]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[22] -to "firrcos:U_firrcos|in_q[15]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[23] -to "firrcos:U_firrcos|in_q[1]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[24] -to "firrcos:U_firrcos|in_q[2]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[25] -to "firrcos:U_firrcos|in_q[3]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[26] -to "firrcos:U_firrcos|in_q[4]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[27] -to "firrcos:U_firrcos|in_q[5]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[28] -to "firrcos:U_firrcos|in_q[6]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[29] -to "firrcos:U_firrcos|in_q[7]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[30] -to "firrcos:U_firrcos|in_q[8]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[31] -to "firrcos:U_firrcos|in_q[9]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[32] -to "firrcos:U_firrcos|in_valid" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[33] -to "firrcos:U_firrcos|out_i[0]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[34] -to "firrcos:U_firrcos|out_i[10]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[35] -to "firrcos:U_firrcos|out_i[11]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[36] -to "firrcos:U_firrcos|out_i[12]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[37] -to "firrcos:U_firrcos|out_i[13]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[38] -to "firrcos:U_firrcos|out_i[14]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[39] -to "firrcos:U_firrcos|out_i[15]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[40] -to "firrcos:U_firrcos|out_i[1]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[41] -to "firrcos:U_firrcos|out_i[2]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[42] -to "firrcos:U_firrcos|out_i[3]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[43] -to "firrcos:U_firrcos|out_i[4]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[44] -to "firrcos:U_firrcos|out_i[5]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[45] -to "firrcos:U_firrcos|out_i[6]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[46] -to "firrcos:U_firrcos|out_i[7]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[47] -to "firrcos:U_firrcos|out_i[8]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[48] -to "firrcos:U_firrcos|out_i[9]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[49] -to "firrcos:U_firrcos|out_q[0]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[50] -to "firrcos:U_firrcos|out_q[10]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[51] -to "firrcos:U_firrcos|out_q[11]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[52] -to "firrcos:U_firrcos|out_q[12]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[53] -to "firrcos:U_firrcos|out_q[13]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[54] -to "firrcos:U_firrcos|out_q[14]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[55] -to "firrcos:U_firrcos|out_q[15]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[56] -to "firrcos:U_firrcos|out_q[1]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[57] -to "firrcos:U_firrcos|out_q[2]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[58] -to "firrcos:U_firrcos|out_q[3]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[59] -to "firrcos:U_firrcos|out_q[4]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[60] -to "firrcos:U_firrcos|out_q[5]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[61] -to "firrcos:U_firrcos|out_q[6]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[62] -to "firrcos:U_firrcos|out_q[7]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[63] -to "firrcos:U_firrcos|out_q[8]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[64] -to "firrcos:U_firrcos|out_q[9]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[65] -to "firrcos:U_firrcos|out_valid" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[66] -to lms_tx_data[0] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[67] -to lms_tx_data[10] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[68] -to lms_tx_data[11] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[69] -to lms_tx_data[1] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[70] -to lms_tx_data[2] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[71] -to lms_tx_data[3] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[72] -to lms_tx_data[4] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[73] -to lms_tx_data[5] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[74] -to lms_tx_data[6] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[75] -to lms_tx_data[7] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[76] -to lms_tx_data[8] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[77] -to lms_tx_data[9] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[78] -to lms_tx_iq_select -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[0] -to "firrcos:U_firrcos|in_i[0]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[1] -to "firrcos:U_firrcos|in_i[10]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[2] -to "firrcos:U_firrcos|in_i[11]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[3] -to "firrcos:U_firrcos|in_i[12]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[4] -to "firrcos:U_firrcos|in_i[13]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[5] -to "firrcos:U_firrcos|in_i[14]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[6] -to "firrcos:U_firrcos|in_i[15]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[7] -to "firrcos:U_firrcos|in_i[1]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[8] -to "firrcos:U_firrcos|in_i[2]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[9] -to "firrcos:U_firrcos|in_i[3]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[10] -to "firrcos:U_firrcos|in_i[4]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[11] -to "firrcos:U_firrcos|in_i[5]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[12] -to "firrcos:U_firrcos|in_i[6]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[13] -to "firrcos:U_firrcos|in_i[7]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[14] -to "firrcos:U_firrcos|in_i[8]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[15] -to "firrcos:U_firrcos|in_i[9]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[16] -to "firrcos:U_firrcos|in_q[0]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[17] -to "firrcos:U_firrcos|in_q[10]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[18] -to "firrcos:U_firrcos|in_q[11]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[19] -to "firrcos:U_firrcos|in_q[12]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[20] -to "firrcos:U_firrcos|in_q[13]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[21] -to "firrcos:U_firrcos|in_q[14]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[22] -to "firrcos:U_firrcos|in_q[15]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[23] -to "firrcos:U_firrcos|in_q[1]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[24] -to "firrcos:U_firrcos|in_q[2]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[25] -to "firrcos:U_firrcos|in_q[3]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[26] -to "firrcos:U_firrcos|in_q[4]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[27] -to "firrcos:U_firrcos|in_q[5]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[28] -to "firrcos:U_firrcos|in_q[6]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[29] -to "firrcos:U_firrcos|in_q[7]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[30] -to "firrcos:U_firrcos|in_q[8]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[31] -to "firrcos:U_firrcos|in_q[9]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[32] -to "firrcos:U_firrcos|in_valid" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[33] -to "firrcos:U_firrcos|out_i[0]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[34] -to "firrcos:U_firrcos|out_i[10]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[35] -to "firrcos:U_firrcos|out_i[11]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[36] -to "firrcos:U_firrcos|out_i[12]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[37] -to "firrcos:U_firrcos|out_i[13]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[38] -to "firrcos:U_firrcos|out_i[14]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[39] -to "firrcos:U_firrcos|out_i[15]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[40] -to "firrcos:U_firrcos|out_i[1]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[41] -to "firrcos:U_firrcos|out_i[2]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[42] -to "firrcos:U_firrcos|out_i[3]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[43] -to "firrcos:U_firrcos|out_i[4]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[44] -to "firrcos:U_firrcos|out_i[5]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[45] -to "firrcos:U_firrcos|out_i[6]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[46] -to "firrcos:U_firrcos|out_i[7]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[47] -to "firrcos:U_firrcos|out_i[8]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[48] -to "firrcos:U_firrcos|out_i[9]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[49] -to "firrcos:U_firrcos|out_q[0]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[50] -to "firrcos:U_firrcos|out_q[10]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[51] -to "firrcos:U_firrcos|out_q[11]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[52] -to "firrcos:U_firrcos|out_q[12]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[53] -to "firrcos:U_firrcos|out_q[13]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[54] -to "firrcos:U_firrcos|out_q[14]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[55] -to "firrcos:U_firrcos|out_q[15]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[56] -to "firrcos:U_firrcos|out_q[1]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[57] -to "firrcos:U_firrcos|out_q[2]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[58] -to "firrcos:U_firrcos|out_q[3]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[59] -to "firrcos:U_firrcos|out_q[4]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[60] -to "firrcos:U_firrcos|out_q[5]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[61] -to "firrcos:U_firrcos|out_q[6]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[62] -to "firrcos:U_firrcos|out_q[7]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[63] -to "firrcos:U_firrcos|out_q[8]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[64] -to "firrcos:U_firrcos|out_q[9]" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[65] -to "firrcos:U_firrcos|out_valid" -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[66] -to lms_tx_data[0] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[67] -to lms_tx_data[10] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[68] -to lms_tx_data[11] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[69] -to lms_tx_data[1] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[70] -to lms_tx_data[2] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[71] -to lms_tx_data[3] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[72] -to lms_tx_data[4] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[73] -to lms_tx_data[5] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[74] -to lms_tx_data[6] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[75] -to lms_tx_data[7] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[76] -to lms_tx_data[8] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[77] -to lms_tx_data[9] -section_id lms_tx
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[78] -to lms_tx_iq_select -section_id lms_tx
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_DATA_BITS=79" -section_id lms_tx
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_BITS=79" -section_id lms_tx
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK=0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" -section_id lms_tx
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK_LENGTH=262" -section_id lms_tx
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SEGMENT_SIZE=2048" -section_id lms_tx
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_LOWORD=63758" -section_id lms_tx
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_HIWORD=57035" -section_id lms_tx
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SAMPLE_DEPTH=2048" -section_id lms_tx
+set_global_assignment -name SLD_NODE_CREATOR_ID 110 -section_id gpio
+set_global_assignment -name SLD_NODE_ENTITY_NAME sld_signaltap -section_id gpio
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT acq_clk -to c4_clock -section_id gpio
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_INFO=805334530" -section_id gpio
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_POWER_UP_TRIGGER=0" -section_id gpio
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_INVERSION_MASK_LENGTH=0" -section_id gpio
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SEGMENT_SIZE=128" -section_id gpio
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ATTRIBUTE_MEM_MODE=OFF" -section_id gpio
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_FLOW_USE_GENERATED=0" -section_id gpio
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_BITS=11" -section_id gpio
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_BUFFER_FULL_STOP=1" -section_id gpio
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_CURRENT_RESOURCE_WIDTH=1" -section_id gpio
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL=1" -section_id gpio
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SAMPLE_DEPTH=128" -section_id gpio
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_IN_ENABLED=0" -section_id gpio
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ADVANCED_TRIGGER_ENTITY=basic,1," -section_id gpio
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL_PIPELINE=1" -section_id gpio
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ENABLE_ADVANCED_TRIGGER=0" -section_id gpio
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[0] -to lms_reset -section_id gpio
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[1] -to lms_rx_enable -section_id gpio
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[2] -to lms_rx_v[1] -section_id gpio
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[3] -to lms_rx_v[2] -section_id gpio
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[4] -to lms_tx_enable -section_id gpio
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[5] -to lms_tx_v[1] -section_id gpio
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[6] -to lms_tx_v[2] -section_id gpio
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[0] -to lms_reset -section_id gpio
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[1] -to lms_rx_enable -section_id gpio
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[2] -to lms_rx_v[1] -section_id gpio
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[3] -to lms_rx_v[2] -section_id gpio
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[4] -to lms_tx_enable -section_id gpio
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[5] -to lms_tx_v[1] -section_id gpio
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[6] -to lms_tx_v[2] -section_id gpio
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_DATA_BITS=7" -section_id gpio
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_BITS=7" -section_id gpio
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK=000000000000000000000000000000000000000000" -section_id gpio
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK_LENGTH=42" -section_id gpio
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_LOWORD=20114" -section_id gpio
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_CRC_HIWORD=61861" -section_id gpio
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

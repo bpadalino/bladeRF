@@ -84,6 +84,7 @@
 #include "altera_avalon_spi.h"
 #include "altera_avalon_uart_regs.h"
 #include "altera_avalon_jtag_uart_regs.h"
+#include "altera_avalon_pio_regs.h"
 #include "priv/alt_busy_sleep.h"
 #include "priv/alt_file.h"
 #include <stdint.h>
@@ -127,7 +128,7 @@ void si5338_complete_transfer( uint8_t check_rxack ) {
 		while( (IORD_8DIRECT(I2C, OC_I2C_CMD_STATUS)&OC_I2C_TIP) == 0 ) { } ;
 	}
 	while( IORD_8DIRECT(I2C, OC_I2C_CMD_STATUS)&OC_I2C_TIP ) { } ;
-	while( check_rxack && IORD_8DIRECT(I2C, OC_I2C_CMD_STATUS)&OC_I2C_RXACK ) { } ;
+	while( check_rxack && (IORD_8DIRECT(I2C, OC_I2C_CMD_STATUS)&OC_I2C_RXACK) ) { } ;
 }
 
 void si5338_read( uint8_t addr, uint8_t *data ) {
@@ -171,51 +172,315 @@ void si5338_write( uint8_t addr, uint8_t data ) {
 	return ;
 }
 
+void bladerf_lms_reset() {
+	uint32_t gpio = IORD_ALTERA_AVALON_PIO_DATA(PIO_0_BASE) ;
+	gpio &= ~1 ;
+	IOWR_ALTERA_AVALON_PIO_DATA(PIO_0_BASE, gpio) ;
+	gpio |= 1 ;
+	IOWR_ALTERA_AVALON_PIO_DATA(PIO_0_BASE, gpio) ;
+	return ;
+}
+
+#define BAND_MASK   3
+#define BAND_LOW 	2
+#define BAND_HIGH 	1
+
+void bladerf_tx_enable() {
+	IOWR_ALTERA_AVALON_PIO_SET_BITS(PIO_0_BASE,4) ;
+	lms_tx_enable() ;
+	return ;
+}
+
+void bladerf_tx_disable() {
+	IOWR_ALTERA_AVALON_PIO_CLEAR_BITS(PIO_0_BASE,4) ;
+	lms_tx_disable() ;
+	return ;
+}
+
+void bladerf_rx_enable() {
+	IOWR_ALTERA_AVALON_PIO_SET_BITS(PIO_0_BASE,2) ;
+	lms_rx_enable() ;
+	return ;
+}
+
+void bladerf_rx_disable() {
+	IOWR_ALTERA_AVALON_PIO_CLEAR_BITS(PIO_0_BASE,2) ;
+	lms_rx_disable() ;
+	return ;
+}
+
+void bladerf_set_frequency( lms_module_t mod, uint32_t freq ) {
+	uint32_t band = (freq > 1500000000) ? BAND_HIGH : BAND_LOW ;
+	uint32_t gpio = IORD_ALTERA_AVALON_PIO_DATA(PIO_0_BASE) ;
+	gpio &= (mod == TX) ? ~(BAND_MASK << 3) : ~(BAND_MASK << 5) ;
+	gpio |= (mod == TX) ? band << 3 : band << 5 ;
+	IOWR_ALTERA_AVALON_PIO_DATA(PIO_0_BASE, gpio) ;
+	lms_set_frequency( mod, freq ) ;
+	if( mod == TX ) {
+		lms_pa_enable( freq > 1500000000 ? PA_2 : PA_1 ) ;
+	}
+	return ;
+}
+
 // Entry point
 int main()
 {
   uint8_t data ;
   alt_putstr("bladeRF LMS6002D SPI Register Readback!\n");
   alt_putstr("---------------------------------------\n");
+  bladerf_lms_reset() ;
+  bladerf_tx_enable() ;
+  bladerf_rx_disable() ;
 
-  xcvr_config.tx_freq_hz = 500000000;
-  xcvr_config.rx_freq_hz = 500000000;
+//  lms_dump_registers() ;
 
-  xcvr_config.loopback_mode = LB_RF_LNA_START;
-  xcvr_config.lna = LNA_1;
-  xcvr_config.pa = PA_2;
+//  xcvr_config.tx_freq_hz = 576000000u;
+//  xcvr_config.rx_freq_hz = 1576000000u;
 
-  lms_config_init(&xcvr_config);
+//  xcvr_config.loopback_mode = LB_NONE;
+//  xcvr_config.lna = LNA_NONE;
+//  xcvr_config.pa = PA_2;
+//  xcvr_config.bw = BW_28MHz ;
+
+//  lms_config_init(&xcvr_config);
+//  lms_lpf_enable( TX, BW_28MHz ) ;
+//  lms_set_txvga2_gain( 25 ) ;
+//  lms_spi_write( 0x57, 0x84 ) ;
+//  lms_dump_registers() ;
+
+  // 500MHz out of PA1
+//  lms_spi_write( 0X82, 0x1F ) ;
+//  lms_spi_write( 0X83, 0x08 ) ;
+//  lms_spi_write( 0X85, 0x3E ) ;
+//  lms_spi_write( 0X86, 0x0D ) ;
+//  lms_spi_write( 0X87, 0x00 ) ;
+//  lms_spi_write( 0X88, 0x00 ) ;
+//  lms_spi_write( 0X89, 0x45 ) ;
+//  lms_spi_write( 0X8A, 0x00 ) ;
+//  lms_spi_write( 0X8B, 0x08 ) ;
+//  lms_spi_write( 0X90, 0x34 ) ;
+//  lms_spi_write( 0X91, 0x15 ) ;
+//  lms_spi_write( 0X92, 0x55 ) ;
+//  lms_spi_write( 0X93, 0x55 ) ;
+//  lms_spi_write( 0X94, 0x88 ) ;
+//  lms_spi_write( 0X95, 0x99 ) ;
+//  lms_spi_write( 0X96, 0x8C ) ;
+//  lms_spi_write( 0X97, 0xE3 ) ;
+//  lms_spi_write( 0X98, 0x40 ) ;
+//  lms_spi_write( 0X99, 0x99 ) ;
+//  lms_spi_write( 0X9A, 0x03 ) ;
+//  lms_spi_write( 0X9B, 0x76 ) ;
+//  lms_spi_write( 0X9C, 0x38 ) ;
+//  lms_spi_write( 0XA0, 0x34 ) ;
+//  lms_spi_write( 0XA1, 0x15 ) ;
+//  lms_spi_write( 0XA2, 0x55 ) ;
+//  lms_spi_write( 0XA3, 0x55 ) ;
+//  lms_spi_write( 0XA4, 0x88 ) ;
+//  lms_spi_write( 0XA5, 0x99 ) ;
+//  lms_spi_write( 0XA6, 0x8C ) ;
+//  lms_spi_write( 0XA7, 0xE3 ) ;
+//  lms_spi_write( 0XA8, 0x40 ) ;
+//  lms_spi_write( 0XA9, 0x9F ) ;
+//  lms_spi_write( 0XAA, 0x03 ) ;
+//  lms_spi_write( 0XAB, 0x76 ) ;
+//  lms_spi_write( 0XAC, 0x38 ) ;
+//  lms_spi_write( 0XB2, 0x1F ) ;
+//  lms_spi_write( 0XB3, 0x08 ) ;
+//  lms_spi_write( 0XB4, 0x02 ) ;
+//  lms_spi_write( 0XB5, 0x0C ) ; // 0x0C for normal LPF
+//  lms_spi_write( 0XB6, 0x30 ) ;
+//  lms_spi_write( 0XC0, 0x02 ) ;
+//  lms_spi_write( 0XC1, 0x1F ) ;
+//  lms_spi_write( 0XC2, 0x80 ) ;
+//  lms_spi_write( 0XC3, 0x80 ) ;
+//  lms_spi_write( 0XC4, 0x0B ) ;
+//  lms_spi_write( 0XC5, 0xC8 ) ;
+//  lms_spi_write( 0XC6, 0x00 ) ;
+//  lms_spi_write( 0XC7, 0x40 ) ;
+//  lms_spi_write( 0XC8, 0x0C ) ;
+//  lms_spi_write( 0XC9, 0x0C ) ;
+//  lms_spi_write( 0XCA, 0x18 ) ;
+//  lms_spi_write( 0XCB, 0x50 ) ;
+//  lms_spi_write( 0XCC, 0x00 ) ;
+//  lms_spi_write( 0XCD, 0x00 ) ;
+//  lms_spi_write( 0XD2, 0x1F ) ;
+//  lms_spi_write( 0XD3, 0x08 ) ;
+//  lms_spi_write( 0XD4, 0x02 ) ;
+//  lms_spi_write( 0XD5, 0x0C ) ;
+//  lms_spi_write( 0XD6, 0x30 ) ;
+//  lms_spi_write( 0XD7, 0x94 ) ;
+//  lms_spi_write( 0XD8, 0x00 ) ;
+//  lms_spi_write( 0XD9, 0x09 ) ;
+//  lms_spi_write( 0XDA, 0x20 ) ;
+//  lms_spi_write( 0XDB, 0x00 ) ;
+//  lms_spi_write( 0XDC, 0x00 ) ;
+//  lms_spi_write( 0XDD, 0x00 ) ;
+//  lms_spi_write( 0XDE, 0x00 ) ;
+//  lms_spi_write( 0XDF, 0x1F ) ;
+//  lms_spi_write( 0XE2, 0x1F ) ;
+//  lms_spi_write( 0XE3, 0x08 ) ;
+//  lms_spi_write( 0XE4, 0x32 ) ;
+//  lms_spi_write( 0XE5, 0x01 ) ;
+//  lms_spi_write( 0XE6, 0x00 ) ;
+//  lms_spi_write( 0XE7, 0x00 ) ;
+//  lms_spi_write( 0XE8, 0x01 ) ;
+//  lms_spi_write( 0XF0, 0x01 ) ;
+//  lms_spi_write( 0XF1, 0x80 ) ;
+//  lms_spi_write( 0XF2, 0x80 ) ;
+//  lms_spi_write( 0XF3, 0x00 ) ;
+//  lms_spi_write( 0XF4, 0x00 ) ;
+//  lms_spi_write( 0XF5, 0x50 ) ;
+//  lms_spi_write( 0XF6, 0x02 ) ; // 0x78
+//  lms_spi_write( 0XF7, 0x00 ) ;
+//  lms_spi_write( 0XF8, 0x1C ) ;
+//  lms_spi_write( 0XF9, 0x37 ) ;
+//  lms_spi_write( 0XFA, 0x77 ) ;
+//  lms_spi_write( 0XFB, 0x77 ) ;
+//  lms_spi_write( 0XFC, 0x18 ) ;
+//  lms_spi_write( 0XFD, 0x00 ) ;
+
+  lms_spi_write( 0X82, 0x1F ) ;
+  lms_spi_write( 0X83, 0x08 ) ;
+  lms_spi_write( 0X85, 0x3E ) ;
+  lms_spi_write( 0X86, 0x0D ) ;
+  lms_spi_write( 0X87, 0x00 ) ;
+  lms_spi_write( 0X88, 0x00 ) ;
+  lms_spi_write( 0X89, 0x45 ) ;
+  lms_spi_write( 0X8A, 0x00 ) ;
+  lms_spi_write( 0X8B, 0x08 ) ;
+  lms_spi_write( 0X90, 0x34 ) ;
+  lms_spi_write( 0X91, 0x15 ) ;
+  lms_spi_write( 0X92, 0x55 ) ;
+  lms_spi_write( 0X93, 0x55 ) ;
+  lms_spi_write( 0X94, 0x88 ) ;
+  lms_spi_write( 0X95, 0x99 ) ;
+  lms_spi_write( 0X96, 0x8C ) ;
+  lms_spi_write( 0X97, 0xE3 ) ;
+  lms_spi_write( 0X98, 0x40 ) ;
+  lms_spi_write( 0X99, 0x92 ) ;
+  lms_spi_write( 0X9A, 0x03 ) ;
+  lms_spi_write( 0X9B, 0x76 ) ;
+  lms_spi_write( 0X9C, 0x38 ) ;
+  lms_spi_write( 0XA0, 0x34 ) ;
+  lms_spi_write( 0XA1, 0x15 ) ;
+  lms_spi_write( 0XA2, 0x55 ) ;
+  lms_spi_write( 0XA3, 0x55 ) ;
+  lms_spi_write( 0XA4, 0x88 ) ;
+  lms_spi_write( 0XA5, 0x99 ) ;
+  lms_spi_write( 0XA6, 0x8C ) ;
+  lms_spi_write( 0XA7, 0xE3 ) ;
+  lms_spi_write( 0XA8, 0x40 ) ;
+  lms_spi_write( 0XA9, 0x92 ) ;
+  lms_spi_write( 0XAA, 0x03 ) ;
+  lms_spi_write( 0XAB, 0x76 ) ;
+  lms_spi_write( 0XAC, 0x38 ) ;
+  lms_spi_write( 0XB2, 0x1F ) ;
+  lms_spi_write( 0XB3, 0x08 ) ;
+  lms_spi_write( 0XB4, 0x02 ) ;
+  lms_spi_write( 0XB5, 0x4C ) ;
+  lms_spi_write( 0XB6, 0x30 ) ;
+  lms_spi_write( 0XC0, 0x02 ) ;
+  lms_spi_write( 0XC1, 0x1F ) ;
+  lms_spi_write( 0XC2, 0x80 ) ;
+  lms_spi_write( 0XC3, 0x80 ) ;
+  lms_spi_write( 0XC4, 0x0B ) ;
+  lms_spi_write( 0XC5, 0xC8 ) ;
+  lms_spi_write( 0XC6, 0x00 ) ;
+  lms_spi_write( 0XC7, 0x40 ) ;
+  lms_spi_write( 0XC8, 0x0C ) ;
+  lms_spi_write( 0XC9, 0x0C ) ;
+  lms_spi_write( 0XCA, 0x18 ) ;
+  lms_spi_write( 0XCB, 0x50 ) ;
+  lms_spi_write( 0XCC, 0x00 ) ;
+  lms_spi_write( 0XCD, 0x00 ) ;
+  lms_spi_write( 0XD2, 0x1F ) ;
+  lms_spi_write( 0XD3, 0x08 ) ;
+  lms_spi_write( 0XD4, 0x02 ) ;
+  lms_spi_write( 0XD5, 0x0C ) ;
+  lms_spi_write( 0XD6, 0x30 ) ;
+  lms_spi_write( 0XD7, 0x94 ) ;
+  lms_spi_write( 0XD8, 0x00 ) ;
+  lms_spi_write( 0XD9, 0x09 ) ;
+  lms_spi_write( 0XDA, 0x20 ) ;
+  lms_spi_write( 0XDB, 0x00 ) ;
+  lms_spi_write( 0XDC, 0x00 ) ;
+  lms_spi_write( 0XDD, 0x00 ) ;
+  lms_spi_write( 0XDE, 0x00 ) ;
+  lms_spi_write( 0XDF, 0x1F ) ;
+  lms_spi_write( 0XE2, 0x1F ) ;
+  lms_spi_write( 0XE3, 0x08 ) ;
+  lms_spi_write( 0XE4, 0x32 ) ;
+  lms_spi_write( 0XE5, 0x01 ) ;
+  lms_spi_write( 0XE6, 0x00 ) ;
+  lms_spi_write( 0XE7, 0x00 ) ;
+  lms_spi_write( 0XE8, 0x01 ) ;
+  lms_spi_write( 0XF0, 0x01 ) ;
+  lms_spi_write( 0XF1, 0x80 ) ;
+  lms_spi_write( 0XF2, 0x80 ) ;
+  lms_spi_write( 0XF3, 0x00 ) ;
+  lms_spi_write( 0XF4, 0x00 ) ;
+  lms_spi_write( 0XF5, 0xD0 ) ;
+  lms_spi_write( 0XF6, 0x78 ) ;
+  lms_spi_write( 0XF7, 0x00 ) ;
+  lms_spi_write( 0XF8, 0x1C ) ;
+  lms_spi_write( 0XF9, 0x37 ) ;
+  lms_spi_write( 0XFA, 0x77 ) ;
+  lms_spi_write( 0XFB, 0x77 ) ;
+  lms_spi_write( 0XFC, 0x18 ) ;
+  lms_spi_write( 0XFD, 0x00 ) ;
+
+//  lms_spi_write( 0x45, 25<<3 ) ;
+
+//  lms_soft_reset() ;
+//  lms_tx_enable() ;
+//  lms_pa_enable( PA_1 ) ;
+//  lms_set_frequency( TX, 576000000 ) ;
+  bladerf_set_frequency( TX, 387000000u ) ;
+  lms_set_txvga2_gain( 20 ) ;
+
+  bladerf_set_frequency( RX, 320000000 ) ;
+  lms_lpf_enable( TX, BW_20MHz ) ;
+
+  lms_spi_write( 0x47, 0x40 ) ;
+  lms_spi_write( 0x48, 12 ) ;
+  lms_spi_write( 0x49, 12 ) ;
+
+  lms_dump_registers() ;
 
   // Set the prescaler for 384kHz with a 38.4MHz clock
   IOWR_16DIRECT(I2C, OC_I2C_PRESCALER, 0x20 ) ;
   IOWR_8DIRECT(I2C, OC_I2C_CTRL, OC_I2C_ENABLE ) ;
 
-  {
-	  printf( "Si5338 Register Table\n" ) ;
-	  printf( "---------------------\n" ) ;
-	  uint8_t i ;
-	  for( i = 0 ; ; i++ ) {
-		  si5338_read( i, &data ) ;
-		  printf( "addr: %d  data: %x\n", i, data ) ;
-		  if( i == 255 ) break ;
-	  }
-  }
+//  {
+//	  printf( "Si5338 Register Table\n" ) ;
+//	  printf( "---------------------\n" ) ;
+//	  uint8_t i ;
+//	  for( i = 0 ; ; i++ ) {
+//		  si5338_read( i, &data ) ;
+//		  printf( "addr: %d  data: %x\n", i, data ) ;
+//		  if( i == 255 ) break ;
+//	  }
+//  }
 
-  /* Write test for si5338 */
+  /* Turn on Si5338 TX/RX clocks */
   {
-	  uint8_t i ;
-	  si5338_read( 30 ,&data ) ;
-	  i = data ;
-	  printf( "data1: %x\n", data ) ;
-	  si5338_write( 30, 0xe3 ) ;
-	  data = 0 ;
-	  si5338_read( 30, &data ) ;
-	  printf( "data2: %x\n", data ) ;
-	  si5338_write( 30, i ) ;
-	  data = 1 ;
-	  si5338_read( 30, &data ) ;
-	  printf( "data3: %x\n", data ) ;
+	  si5338_write(32,0xA2);
+	  si5338_write(37,0x03);
+	  si5338_write(65,0x1F);
+	  si5338_write(70,0x01);
+	  si5338_write(75,0x80);
+	  si5338_write(76,0xFE);
+	  si5338_write(77,0x03);
+	  si5338_write(81,0x01);
+	  si5338_write(86,0x80);
+	  si5338_write(87,0xFE);
+	  si5338_write(88,0x03);
+	  si5338_write(92,0x01);
+	  si5338_write(110,0x00);
+	  si5338_write(144,0x80);
+
+	  si5338_write(33, 0xA2);
+	  si5338_write(38, 0x03);
   }
 
   /* Event loop never exits. */

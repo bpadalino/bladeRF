@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_qsys_0' in SOPC Builder design 'nios_system'
  * SOPC Builder design path: ../../nios_system.sopcinfo
  *
- * Generated: Tue May 14 23:33:07 EDT 2013
+ * Generated: Sat May 25 11:23:15 EDT 2013
  */
 
 /*
@@ -125,6 +125,7 @@
 
 #define __ALTERA_AVALON_JTAG_UART
 #define __ALTERA_AVALON_ONCHIP_MEMORY2
+#define __ALTERA_AVALON_PIO
 #define __ALTERA_AVALON_SPI
 #define __ALTERA_AVALON_TIMER
 #define __ALTERA_AVALON_UART
@@ -237,6 +238,33 @@
 #define ONCHIP_MEMORY2_0_SPAN 81920
 #define ONCHIP_MEMORY2_0_TYPE "altera_avalon_onchip_memory2"
 #define ONCHIP_MEMORY2_0_WRITABLE 1
+
+
+/*
+ * pio_0 configuration
+ *
+ */
+
+#define ALT_MODULE_CLASS_pio_0 altera_avalon_pio
+#define PIO_0_BASE 0x27000
+#define PIO_0_BIT_CLEARING_EDGE_REGISTER 0
+#define PIO_0_BIT_MODIFYING_OUTPUT_REGISTER 1
+#define PIO_0_CAPTURE 0
+#define PIO_0_DATA_WIDTH 32
+#define PIO_0_DO_TEST_BENCH_WIRING 0
+#define PIO_0_DRIVEN_SIM_VALUE 0x0
+#define PIO_0_EDGE_TYPE "NONE"
+#define PIO_0_FREQ 38400000u
+#define PIO_0_HAS_IN 0
+#define PIO_0_HAS_OUT 1
+#define PIO_0_HAS_TRI 0
+#define PIO_0_IRQ -1
+#define PIO_0_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define PIO_0_IRQ_TYPE "NONE"
+#define PIO_0_NAME "/dev/pio_0"
+#define PIO_0_RESET_VALUE 0x0
+#define PIO_0_SPAN 32
+#define PIO_0_TYPE "altera_avalon_pio"
 
 
 /*

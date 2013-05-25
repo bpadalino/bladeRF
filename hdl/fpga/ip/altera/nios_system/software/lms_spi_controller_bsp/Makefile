@@ -93,12 +93,12 @@ OBJ_DIR := ./obj
 
 # This following VERSION comment indicates the version of the tool used to 
 # generate this makefile. A makefile variable is provided for VERSION as well. 
-# ACDS_VERSION: 12.1
-ACDS_VERSION := 12.1
+# ACDS_VERSION: 12.1sp1
+ACDS_VERSION := 12.1sp1
 
 # This following BUILD_NUMBER comment indicates the build number of the tool 
 # used to generate this makefile. 
-# BUILD_NUMBER: 177
+# BUILD_NUMBER: 243
 
 SETTINGS_FILE := settings.bsp
 SOPC_FILE := ../../nios_system.sopcinfo
@@ -219,6 +219,10 @@ altera_avalon_jtag_uart_driver_C_LIB_SRCS := \
 	$(altera_avalon_jtag_uart_driver_SRCS_ROOT)/src/altera_avalon_jtag_uart_ioctl.c \
 	$(altera_avalon_jtag_uart_driver_SRCS_ROOT)/src/altera_avalon_jtag_uart_fd.c
 
+# altera_avalon_pio_driver sources root 
+altera_avalon_pio_driver_SRCS_ROOT := drivers
+
+# altera_avalon_pio_driver sources 
 # altera_avalon_spi_driver sources root 
 altera_avalon_spi_driver_SRCS_ROOT := drivers
 

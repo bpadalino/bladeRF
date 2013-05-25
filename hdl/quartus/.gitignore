@@ -4,3 +4,4 @@ simulation
 *.txt
 *.jdi
 .qsys_edit
+*.qdf

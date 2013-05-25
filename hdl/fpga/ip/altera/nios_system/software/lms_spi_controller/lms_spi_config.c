@@ -90,6 +90,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <inttypes.h>
 
 #include "sys/alt_dev.h"
 
@@ -115,96 +116,21 @@ const freq_range_t bands[] = {
 };
 
 
-const uint16_t lms_reg_dumpset[] = {
-     0x02,
-     0x03,
-     0x05,
-     0x06,
-     0x07,
-     0x08,
-     0x09,
-     0x0A,
-     0x0B,
-     0x10,
-     0x11,
-     0x12,
-     0x13,
-     0x14,
-     0x15,
-     0x16,
-     0x17,
-     0x18,
-     0x19,
-     0x1A,
-     0x1B,
-     0x1C,
-     0x20,
-     0x21,
-     0x22,
-     0x23,
-     0x24,
-     0x25,
-     0x26,
-     0x27,
-     0x28,
-     0x29,
-     0x2A,
-     0x2B,
-     0x2C,
-     0x32,
-     0x33,
-     0x34,
-     0x35,
-     0x36,
-     0x40,
-     0x41,
-     0x42,
-     0x43,
-     0x44,
-     0x45,
-     0x46,
-     0x47,
-     0x48,
-     0x49,
-     0x4A,
-     0x4B,
-     0x4C,
-     0x4D,
-     0x52,
-     0x53,
-     0x54,
-     0x55,
-     0x56,
-     0x57,
-     0x58,
-     0x59,
-     0x5A,
-     0x5B,
-     0x5C,
-     0x5D,
-     0x5E,
-     0x5F,
-     0x62,
-     0x63,
-     0x64,
-     0x65,
-     0x66,
-     0x67,
-     0x68,
-     0x70,
-     0x71,
-     0x72,
-     0x73,
-     0x74,
-     0x75,
-     0x76,
-     0x77,
-     0x78,
-     0x79,
-     0x7A,
-     0x7B,
-     0x7C,
-     0x7D
+const uint8_t lms_reg_dumpset[] = {
+	 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0E, 0x0F,
+
+     0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F,
+     0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F,
+
+     0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36,
+
+     0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F,
+
+     0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5A, 0x5B, 0x5C, 0x5D, 0x5E, 0x5F,
+
+     0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68,
+
+     0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7A, 0x7B, 0x7C
 } ;
 
 // Trim DAC write
@@ -436,12 +362,12 @@ void lms_pa_enable( lms_pa_t pa )
 		data &= ~(1<<1) ;
 	} else if( pa == PA_1 )
 	{
-		data &= ~(3<<2) ;
-		data |= (2<<1) ;
+		data &= ~(3<<3) ;
+		data |= (1<<3) ;
 	} else if( pa == PA_2 )
 	{
-		data &= ~(3<<2) ;
-		data |= (4<<1) ;
+		data &= ~(3<<3) ;
+		data |= (2<<3) ;
 	}
 	lms_spi_write( 0x44, data ) ;
 	return ;
@@ -515,6 +441,14 @@ void lms_tx_loopback_enable( lms_txlb_t mode )
 			lms_spi_write( 0x45, data ) ;
 			break ;
 	}
+	return ;
+}
+
+void lms_set_txvga2_gain( uint8_t gain ) {
+	if( gain > 25 ) {
+		gain = 25 ;
+	}
+	lms_spi_write( 0x45, gain << 3 ) ;
 	return ;
 }
 
@@ -756,9 +690,12 @@ void lms_tx_disable( )
 // Print a frequency structure
 void lms_print_frequency( lms_freq_t *f )
 {
-	alt_printf( "  nint     : %x\n", f->nint ) ;
-	alt_printf( "  nfrac    : %x\n", f->nfrac ) ;
-	alt_printf( "  freqsel  : %x\n", f->freqsel ) ;
+	printf( "  x        : %d\n", f->x ) ;
+	printf( "  nint     : %d\n", f->nint ) ;
+	printf( "  nfrac    : %"PRIu32"\n", f->nfrac ) ;
+	printf( "  freqsel  : %x\n", f->freqsel ) ;
+	printf( "  reference: %"PRIu32"\n", f->reference ) ;
+	printf( "  freq     : %"PRIu32"\n", (uint32_t) ( ((uint64_t)((f->nint<<23) + f->nfrac)) * (f->reference/f->x) >>23) )  ;
 
     //nint = floor( 2^(freqsel(2:0)-3) * f_lo / f_ref)
     //nfrac = floor(2^23 * (((x*f_lo)/f_ref) -nint))
@@ -780,6 +717,7 @@ void lms_get_frequency( lms_module_t mod, lms_freq_t *f ) {
 	f->nfrac |= data ;
 	lms_spi_read( base+5, &data ) ;
 	f->freqsel = (data>>2) ;
+	f->x = 1 << ((f->freqsel&7)-3);
 	f->reference = 38400000 ;
 	return ;
 }
@@ -797,6 +735,9 @@ void lms_set_frequency( lms_module_t mod, uint32_t freq )
 	uint8_t data ;
     uint32_t x;
 	uint32_t reference = 38400000 ;
+	uint64_t vcofreq ;
+	uint64_t temp ;
+	uint32_t left ;
 
 
 	// Turn on the DSMs
@@ -829,19 +770,41 @@ void lms_set_frequency( lms_module_t mod, uint32_t freq )
     //nint = floor( 2^(freqsel(2:0)-3) * f_lo / f_ref)
     //nfrac = floor(2^23 * (((x*f_lo)/f_ref) -nint))
     {
-        uint64_t temp = (uint64_t) ((x * freq)<< 23);
-        temp  = temp + reference/2;
-        temp = temp/reference;
-        nint = temp >> 23;
-        nfrac = temp - (nint << 23);
+         temp ;
+         vcofreq = (uint64_t)freq*x ;
+
+        nint = vcofreq/reference ;
+        left = vcofreq - nint*reference ;
+        nfrac = 0 ;
+        {
+        	// Long division ...
+        	int i ;
+        	for( i = 0 ; i < 24 ; i++ ) {
+        		if( left >= reference ) {
+        			left = left - reference ;
+        			nfrac = (nfrac << 1) + 1 ;
+        		} else {
+        			nfrac <<= 1 ;
+        		}
+        		left <<= 1 ;
+        	}
+        }
+
+//        temp = (uint64_t)((uint64_t)x*(uint64_t)freq) ;
+//        nint = ((uint64_t)x*(uint64_t)freq)/(uint64_t)reference ;
+//        {
+//        	uint32_t left =
+//        }
+//        nfrac = (temp - (nint*reference))<<23 ;
 
     }
-	nfrac = (lfreq>>2) - (lfreq>>5) - (lfreq>>12) ;
-	nfrac <<= ((freqsel&7)-3) ;
-
+	//nfrac = (lfreq>>2) - (lfreq>>5) - (lfreq>>12) ;
+	//nfrac <<= ((freqsel&7)-3) ;
+    f.x = x ;
 	f.nint = nint ;
 	f.nfrac = nfrac ;
 	f.freqsel = freqsel ;
+	f.reference = reference ;
 	lms_print_frequency( &f ) ;
 
 	// Program freqsel, selout (rx only), nint and nfrac
@@ -892,7 +855,7 @@ void lms_set_frequency( lms_module_t mod, uint32_t freq )
 			}
 			if( vtune&0x80 )
 			{
-				alt_putstr( "Setting HIGH\n" ) ;
+				//alt_putstr( "Setting HIGH\n" ) ;
 				high = i ;
 			}
 			if( (vtune&0x40) && low == 64 )
@@ -901,13 +864,13 @@ void lms_set_frequency( lms_module_t mod, uint32_t freq )
 				break ;
 			}
 		}
-		alt_printf( "LOW: %x HIGH: %x VCOCAP: %x\n", low, high, (low+high)>>1 ) ;
+		//alt_printf( "LOW: %x HIGH: %x VCOCAP: %x\n", low, high, (low+high)>>1 ) ;
 		data &= ~(0x3f) ;
 		data |= ((low+high)>>1) ;
 		lms_spi_write( base+9, data ) ;
 		lms_spi_write( base+9, data ) ;
 		lms_spi_read( base+10, &vtune ) ;
-		alt_printf( "VTUNE: %x\n", vtune&0xc0 ) ;
+		//alt_printf( "VTUNE: %x\n", vtune&0xc0 ) ;
 	}
 
 	// Turn off the DSMs
@@ -925,6 +888,7 @@ void lms_dump_registers(void)
     for (i = 0; i < num_reg; i++)
     {   
         lms_spi_read( lms_reg_dumpset[i], &data ) ;
+        alt_printf( "addr: %x data: %x\n", lms_reg_dumpset[i], data ) ;
     }
 }
 
@@ -996,9 +960,10 @@ void lms_lpf_init(void)
 	lms_spi_write( 0x27, 0x43 ) ;
 	lms_spi_write( 0x41, 0x1f ) ;
 	lms_spi_write( 0x44, 1<<3 ) ;
-	//lms_spi_write( 0x45, 0x1f<<3 ) ;
+	lms_spi_write( 0x45, 0x1f<<3 ) ;
 	lms_spi_write( 0x48, 0xc  ) ;
 	lms_spi_write( 0x49, 0xc ) ;
+	lms_spi_write( 0x57, 0x84 ) ;
 	return ;
 }
 
@@ -1006,11 +971,13 @@ void lms_lpf_init(void)
 int lms_config_init(xcvr_config_t *config)
 {
 
+  lms_soft_reset() ;
+  lms_lpf_init() ;
   lms_tx_enable() ;
   lms_rx_enable() ;
 
-  lms_spi_write( 0x48, 0xc ) ;
-  lms_spi_write( 0x49, 0xc ) ;
+  lms_spi_write( 0x48, 20 ) ;
+  lms_spi_write( 0x49, 20 ) ;
 
   lms_set_frequency( RX,  config->rx_freq_hz ) ;
   lms_set_frequency( TX,  config->tx_freq_hz ) ;
@@ -1018,7 +985,11 @@ int lms_config_init(xcvr_config_t *config)
   lms_lna_select( config->lna  ) ;
   lms_pa_enable( config->pa ) ;
 
-  lms_loopback_enable(config->loopback_mode);
+  if( config->loopback_mode == LB_NONE ) {
+	  lms_loopback_disable( config->lna, config->bw ) ;
+  } else {
+	  lms_loopback_enable(config->loopback_mode);
+  }
 
   return 0;
 }

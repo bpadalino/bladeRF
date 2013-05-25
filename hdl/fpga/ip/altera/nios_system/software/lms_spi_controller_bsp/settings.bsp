@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>May 14, 2013 11:33:03 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1368588783750</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>May 25, 2013 11:23:11 AM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1369495391896</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>C:\Users\bpadalino\Documents\GitHub\bladeRF\hdl\fpga\ip\altera\nios_system\software\lms_spi_controller_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>..\..\nios_system.sopcinfo</SopcDesignFile>
@@ -914,6 +914,12 @@
                 <slaveDescriptor>oc_i2c_master_0</slaveDescriptor>
                 <addressRange>0x00026000 - 0x00026007</addressRange>
                 <addressSpan>8</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>pio_0</slaveDescriptor>
+                <addressRange>0x00027000 - 0x0002701F</addressRange>
+                <addressSpan>32</addressSpan>
                 <attributes/>
         </MemoryMap>
         <LinkerSection>

@@ -95,13 +95,14 @@
 
 #define LMS_READ 	0
 #define LMS_WRITE 	(1<<7)
-#define LMS_VERBOSE 1
+#define LMS_VERBOSE 0
 #define kHz(x) (x*1000)
 #define MHz(x) (x*1000000)
 #define GHz(x) (x*1000000000)
 
 // Frequency selection structure
 typedef struct {
+	uint8_t x ;
 	uint16_t nint ;
 	uint32_t nfrac ;
 	uint8_t freqsel ;
@@ -189,7 +190,11 @@ typedef struct {
     lms_loopback_mode_t loopback_mode;
     lms_lna_t lna;
     lms_pa_t  pa;
+    lms_bw_t bw;
 } xcvr_config_t;
+
+void lms_spi_read( uint8_t address, uint8_t *val ) ;
+void lms_spi_write( uint8_t address, uint8_t val ) ;
 
 // When enabling an LPF, we must select both the module and the filter bandwidth
 void lms_lpf_enable( lms_module_t mod, lms_bw_t bw );
@@ -229,6 +234,8 @@ void lms_rxvga2_disable();
 void lms_rxvga2_set_gain( uint8_t gain );
 // Enable RXVGA2
 void lms_rxvga2_enable( uint8_t gain );
+
+void lms_set_txvga2_gain( uint8_t gain ) ;
 
 // Enable PA (PA_ALL is NOT valid for enabling)
 void lms_pa_enable( lms_pa_t pa );

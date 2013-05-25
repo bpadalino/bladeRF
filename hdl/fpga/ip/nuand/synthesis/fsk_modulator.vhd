@@ -32,38 +32,38 @@ architecture arch of fsk_modulator is
 begin
 
     register_new_symbol : process(clock, reset)
-        -- variable dir : std_logic ;
-        -- variable dphase : signed(15 downto 0) ;
+        variable dir : std_logic ;
+        variable dphase : signed(15 downto 0) ;
     begin
         if( reset = '1' ) then
-            -- dir := '1' ;
-            -- dphase := (others =>'0') ;
+            dir := '1' ;
+            dphase := (others =>'0') ;
             nco_input.dphase <= ZERO ;
             nco_input.valid <= '0' ;
         elsif( rising_edge( clock ) ) then
-            nco_input.valid <= '1' ;
-            -- if( dir = '1' ) then
-            --     if( dphase < 4094) then
-            --         dphase := dphase + 1 ;
-            --     else
-            --         dphase := dphase - 1 ;
-            --         dir := '0' ;
-            --     end if ;
-            -- else
-            --     if( dphase > -4094) then
-            --         dphase := dphase - 1 ;
-            --     else
-            --         dphase := dphase + 1 ;
-            --         dir := '1' ;
-            --     end if ;
-            -- end if ;
+            nco_input.valid <= symbol_valid ;
             if( symbol_valid = '1' ) then
-                -- nco_input.dphase <= dphase ;
-                if( symbol = '0' ) then
-                    nco_input.dphase <= ZERO ;
+                if( dir = '1' ) then
+                    if( dphase < 2048) then
+                        dphase := dphase + 1 ;
+                    else
+                        dphase := dphase - 1 ;
+                        dir := '0' ;
+                    end if ;
                 else
-                    nco_input.dphase <= ONE ;
+                    if( dphase > -2048) then
+                        dphase := dphase - 1 ;
+                    else
+                        dphase := dphase + 1 ;
+                        dir := '1' ;
+                    end if ;
                 end if ;
+                nco_input.dphase <= dphase ;
+                -- if( symbol = '0' ) then
+                --     nco_input.dphase <= ZERO ;
+                -- else
+                --     nco_input.dphase <= ONE ;
+                -- end if ;
             end if ;
         end if ;
     end process ;

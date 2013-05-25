@@ -9,13 +9,13 @@
  </systemtable>
  <clocktable>
   <columns>
-   <clockname preferredWidth="324" />
-   <clocksource preferredWidth="324" />
-   <frequency preferredWidth="306" />
+   <clockname preferredWidth="215" />
+   <clocksource preferredWidth="215" />
+   <frequency preferredWidth="200" />
   </columns>
  </clocktable>
  <library expandedCategories="Project,Library" />
- <window width="1266" height="851" x="0" y="0" />
+ <window width="1100" height="800" x="230" y="35" />
  <generation
    path="C:/Users/bpadalino/Documents/GitHub/bladeRF/hdl/fpga/ip/altera/_PROJECT_NAME_" />
 </preferences>
