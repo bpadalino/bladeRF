@@ -696,10 +696,6 @@ void lms_print_frequency( lms_freq_t *f )
 	printf( "  freqsel  : %x\n", f->freqsel ) ;
 	printf( "  reference: %"PRIu32"\n", f->reference ) ;
 	printf( "  freq     : %"PRIu32"\n", (uint32_t) ( ((uint64_t)((f->nint<<23) + f->nfrac)) * (f->reference/f->x) >>23) )  ;
-
-    //nint = floor( 2^(freqsel(2:0)-3) * f_lo / f_ref)
-    //nfrac = floor(2^23 * (((x*f_lo)/f_ref) -nint))
-    
 }
 
 // Get the frequency structure

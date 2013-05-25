@@ -1054,9 +1054,9 @@ int main()
 //  lms_tx_enable() ;
 //  lms_pa_enable( PA_1 ) ;
 //  lms_set_frequency( TX, 576000000 ) ;
-  bladerf_set_frequency( TX, 387000000u ) ;
-     6cc:	0145c474 	movhi	r5,5905
-     6d0:	2949b004 	addi	r5,r5,9920
+  bladerf_set_frequency( TX, 2420000000u ) ;
+     6cc:	01640fb4 	movhi	r5,36926
+     6d0:	29514004 	addi	r5,r5,17664
      6d4:	01000044 	movi	r4,1
      6d8:	00000800 	call	80 <bladerf_set_frequency>
   lms_set_txvga2_gain( 20 ) ;

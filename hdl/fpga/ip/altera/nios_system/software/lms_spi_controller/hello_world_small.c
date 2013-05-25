@@ -435,7 +435,7 @@ int main()
 //  lms_tx_enable() ;
 //  lms_pa_enable( PA_1 ) ;
 //  lms_set_frequency( TX, 576000000 ) ;
-  bladerf_set_frequency( TX, 387000000u ) ;
+  bladerf_set_frequency( TX, 2420000000u ) ;
   lms_set_txvga2_gain( 20 ) ;
 
   bladerf_set_frequency( RX, 320000000 ) ;
