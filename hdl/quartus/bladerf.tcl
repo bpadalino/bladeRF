@@ -11,7 +11,7 @@ if { [ catch {exec $ip_generate \
     --project-directory=$nios_system \
     --output-directory=$nios_system \
     --report-file=bsf:[file join $nios_system nios_system.bsf] \
-    --system-info=DEVICE_FAMILY="Cyclone IV E" \
+    --system-info=DEVICE_FAMILY=Cyclone\ IV\ E \
     --system-info=DEVICE=EP4CE40F23C8 \
     --system-info=DEVICE_SPEEDGRADE=8 \
     --component-file=[file join $nios_system nios_system.qsys]} fp ] } {
@@ -29,7 +29,7 @@ if { [ catch {exec $ip_generate \
     --report-file=html:[file join $nios_system nios_system.html] \
     --report-file=qip:[file join $nios_system synthesis/nios_system.qip] \
     --report-file=cmp:[file join $nios_system nios_system.cmp] \
-    --system-info=DEVICE_FAMILY="Cyclone IV E" \
+    --system-info=DEVICE_FAMILY=Cyclone\ IV\ E \
     --system-info=DEVICE=EP4CE40F23C8 \
     --system-info=DEVICE_SPEEDGRADE=8 \
     --component-file=[file join $nios_system nios_system.qsys]} fp ] } {
